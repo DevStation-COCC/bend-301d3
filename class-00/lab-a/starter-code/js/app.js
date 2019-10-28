@@ -36,8 +36,7 @@ function displayPics(){
     }
   }
   // TODO: In a sentence or two, explain why the previous line of code threw an error when we changed the constiable declaration from `var to `let`.
-  // PUT YOUR RESPONSE IN THIS COMMENT
-  //The reason why the error occurs when var is replaced with let on line 33 is that the let scopes rando to the While loop block of code rather than to the function.
+  // PUT YOUR RESPONSE IN THIS COMMENT - The reason why the error occurs when var is replaced with let on line 33 is that the let scopes rando to the While loop block of code rather than to the function.
   console.log(viewed);
 
   for (let i = 0; i < 3; i++){
