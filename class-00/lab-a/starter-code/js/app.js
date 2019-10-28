@@ -6,13 +6,13 @@ const leftImage = document.getElementById('left');
 const centerImage = document.getElementById('center');
 const rightImage = document.getElementById('right');
 
-const allProducts = [];
+let allProducts = [];
 const container = document.getElementById('image_container');
 const viewed = [];
 const labels = [];
 const pics = [leftImage, centerImage, rightImage];
 const list = document.getElementById('productlist');
-const totalClicks = 0;
+let totalClicks = 0;
 const views = [];
 const votes = [];
 
@@ -41,7 +41,7 @@ function displayPics(){
 
   console.log(viewed);
 
-  for (const i = 0; i < 3; i++){
+  for (let i = 0; i < 3; i++){
     const temp = viewed.shift();
     pics[i].src = allProducts[temp].path;
     pics[i].id = allProducts[temp].name;
@@ -60,7 +60,7 @@ function handleClick(event) {
     showList();
     makeChart();
   }
-  for(const i = 0; i < names.length; i++){
+  for(let i = 0; i < names.length; i++){
     if(event.target.id === allProducts[i].name) {
       allProducts[i].votes += 1;
       console.log(event.target.id + ' has ' + allProducts[i].votes + ' votes in ' + allProducts[i].views + ' views');
@@ -72,7 +72,7 @@ function handleClick(event) {
 }
 
 function showList() {
-  for(const i = 0; i < allProducts.length; i++) {
+  for(let i = 0; i < allProducts.length; i++) {
     const liEl = document.createElement('li');
     liEl.textContent = allProducts[i].name + ' has ' + allProducts[i].votes + ' votes in ' + allProducts[i].views + ' views';
     list.appendChild(liEl);
