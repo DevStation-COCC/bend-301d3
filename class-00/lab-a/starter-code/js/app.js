@@ -35,9 +35,10 @@ function displayPics(){
       viewed.push(rando);
     }
   }
-  console.log(rando);
   // TODO: In a sentence or two, explain why the previous line of code threw an error when we changed the variable declaration from `var to `let`.
-  // PUT YOUR RESPONSE IN THIS COMMENT
+  // The variable 'rando' is declared using 'let' on line #33, within the function displayPics 
+  // Let is block scoped- and in this case only available within the curly brackets that start on line 31 and close on line 37.
+
   console.log(viewed);
 
   for (let i = 0; i < 3; i++){
