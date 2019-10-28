@@ -188,8 +188,8 @@ console.log(joe.scopeArrow());
 
 // TODO: Write a COMMENT below to answer the following questions.
 // 1. What is "this" when joe.scope() is invoked?
-//"This" is the global object, created by the global execution context. In this case it is not within any function scope, and is therefore global. 
+// "this" is undefined because it is called outside of the context essentially it cannot find the scope method that is being called.
 // 2. What is "this" when joe.scopeArrow() is invoked?
-//
+//"this" is returned as the global window object. The function works, it is not returning an error, however it is not returning what was intended.
 // 3. Explain why "this" is different when an arrow function is used.
-//
+//The "this" within joe.scopeArrow() is not within any function scope, and therefore the global execution context identifies it a part of the outer environment and considers it a global object.
