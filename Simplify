@@ -1,0 +1,7 @@
+Spacing and gutters
+
+There are a couple ideas that Chris Coyer uses to address spacing between items on a page.  The first is to simplify.  He uses CSS box-sizing: border-box to eliminate and of padding or border impacting size.
+
+Another technique is to use styling to help at the end of a row.   He does this using both padding and a CSS psuedo selector.  In the example of a gutter for say a row of pictures, a padding-right of zero can be applied to only the last image by using the pseudo selector last-of-type.   This same concept can be used for grid-pad and the start of a row of images by using a firt-of-type with padding left.
+
+Naming conventions can also help simplify CSS layout.  By naming classes with a standardization, the [class*='convention-']{} can impact numerous classes with a similar [class*='convention-']:last-of-type{} to keep the gutters inside.
