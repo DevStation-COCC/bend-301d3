@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Events and Delegation</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./vendor/icons.css">
+  </head>
+  <body>
+
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#" data-tab="delegation">Delegation/Data</a></li>
+          <li><a href="#" data-tab="attributes">Attributes/Props</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+
+      <section id="delegation" class="tab-content">
+
+        <ul id="menu-main">
+          <li class="menu-item icon-home">Home - Main</li>
+          <li class="menu-item">About - Main</li>
+          <li class="menu-item">Donate - Main</li>
+        </ul>
+
+        <ul id="menu-secondary">
+          <li class="menu-item">Home - Secondary</li>
+          <li class="menu-item">About - Secondary</li>
+          <li class="menu-item">Donate - Secondary</li>
+        </ul>
+
+        <button type="button" name="add-main">Add a main menu element</button>
+        <button type="button" name="add-secondary">Add a secondary menu element</button>
+        <button type="button" name="clear">Clear log</button>
+
+        <article id="feedback">
+
+          <p class="log-item"></p>
+
+        </article>
+
+      </section>
+
+      <section id="attributes" class="tab-content">
+
+        <label for="check">Check me:</label>
+        <input type="checkbox" name="check" checked="">
+
+        <p id="checked-state"></p>
+
+        <select name="icecream">
+          <option value="null">Choose a flavor</option>
+          <option value="vanilla">vanilla</option>
+          <option value="chocolate">chocolate</option>
+          <option value="strawberry">strawberry</option>
+        </select>
+
+        <div>
+          <img src="img/vanilla.jpeg" data-flavor="vanilla"/>
+          <img src="img/chocolate.jpeg" data-flavor="chocolate" />
+          <img src="img/strawberry.jpeg" data-flavor="strawberry" />
+        </div>
+
+      </section>
+
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+  </body>
+</html>
