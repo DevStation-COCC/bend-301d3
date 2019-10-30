@@ -32,6 +32,7 @@ Dog.prototype.render = function() {
 Dog.readJson = () => {
   $.get('./data.json')
     .then(data => {
+      console.log(typeof data);
       data.forEach(item=> {
         Dog.allDogs.push(new Dog(item));
         console.log(item);
