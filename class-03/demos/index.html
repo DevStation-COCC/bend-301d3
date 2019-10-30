@@ -6,8 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
 
+    <script id="neighborhood-template" type="text/x-handlebars-template">
+      <div>
+          <h2>{{name}}</h2>
+          <p>Part of: {{city}}</p>
+          <p>Current Population: {{population}}</p>
+          <p>Founded on: {{founded}}</p>
+          {{{body}}}
+      </div>
+    </script>
+
   </head>
   <body>
+    <header>
+      <section>
+        <h1>Neighborhood Stats</h1>
+      </section>
+
+      <nav>
+        <ul class="navigation">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Neighborhood</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+
+        </ul>
+      </nav>
+    </header>
     <main>
       <section id="neighborhoods"></section>
     </main>
@@ -16,6 +41,11 @@
 
     </footer>
 
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.min.js" integrity="sha256-oh7N5nthuhldTk8/34Za7FXv3BkeVN9vAnYk/pLfC78=" crossorigin="anonymous"></script>
     <script src="scripts/dataSet.js"></script>
     <script src="scripts/neighborhood.js"></script>
   </body>
