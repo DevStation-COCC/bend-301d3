@@ -1,59 +1,112 @@
 'use strict';
 
-// Load Environment Variables from the .env file
 require('dotenv').config();
 
-// Application Dependencies
+//Dependencies and setup
 const express = require('express');
 const cors = require('cors');
 const superagent = require('superagent');
-
-// Application Setup
-const PORT = process.env.PORT;
+const pg = require('pg');
+const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
 
-app.get('/', (request,response) => {
-  response.send('Home Page!');
-});
+//Configure Database
+const client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
+client.on('err', err => console.error(err));
 
-app.get('/bad', (request,response) => {
-  throw new Error('poo');
-});
+//Errors
+function notFoundHandler(request,response) {
+  response.status(404).send('huh?');
+}
+function errorHandler(error,request,response) {
+  response.status(500).send(error);
+}
 
-// The callback can be a separate function. Really makes things readable
-app.get('/about', aboutUsHandler);
+//Constructor Functions
+function Location(query, data){
+  this.search_query = query;
+  this.formatted_query = data.formatted_address;
+  this.latitude = data.geometry.location.lat;
+  this.longitude = data.geometry.location.lng;
+}
 
-function aboutUsHandler(request,response) {
-  response.status(200).send('About Us Page');
+//Define a prototype function to save data to DB
+Location.prototype.save = function(){
+  const SQL = `INSERT INTO locations
+  (search_query, formatted_query, latitude, longitude)
+  VALUES ($1, $2, $3, $4)
+  RETURNING *`;
+
+  let values = Object.values(this);
+  return client.query(SQL, values);
+};
+
+//My Static Constructor Functions
+
+Location.fetchLocation = function (query){
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.GEOCODE_API_KEY}`;
+
+  return superagent.get(url)
+    .then( result=> {
+      if(!result.body.results.length) {throw 'No data';}
+      let location = new Location(query, result.body.results[0]);
+      return location.save()
+        .then( result => {
+          location.id = result.rows[0].id; //update, delete...etc...
+          return location;
+        });
+    });
+};
+
+Location.lookup = (handler) => {
+  const SQL = `SELECT * FROM locations WHERE search_query=$1`;
+  const values = [handler.query];
+
+  return client.query(SQL, values)
+    .then( results => {
+      if (results.rowCount > 0){
+        handler.cacheHit(results);
+      }else {
+        handler.cacheMiss();
+      }
+    })
+    .catch(console.error);
+};
+
+function Weather(day) {
+  this.forecast = day.summary;
+  this.time = new Date(day.time * 1000).toString().slice(0,15);
 }
 
 // API Routes
 
-app.get('/location', handleLocation);
-app.get('/weather', handleWeather);
+app.get('/location', getLocation);
+app.get('/weather', getWeather);
 
 //Route Handlers
-function handleLocation(request,response) {
 
-  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${request.query.data}&key=${process.env.GEOCODE_API_KEY}`;
+function getLocation(request,response) {
 
-  superagent.get(url)
-    .then( data=> {
-      const geoData = data.body;
-      const location = new Location(request.query.data, geoData);
-      response.send(location);
-      response.send(data);
-    })
-    .catch( error => {
-      console.error(error);
-      response.status(500).send('Status: 500. Sorry, there is something not quite right');
-    });
+  const locationHandler = {
+    query: request.query.data,
 
+    cacheHit: (results) => {
+      console.log('Got data from DB');
+      response.send(results.rows[0]);
+    },
 
+    cacheMiss: () => {
+      console.log('No data in DB, fetching...');
+      Location.fetchLocation(request.query.data)
+        .then( data => response.send(data));
+    }
+  };
+  Location.lookup(locationHandler);
 }
 
-function handleWeather(request, response) {
+function getWeather(request, response) {
 
   const url = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${request.query.data.latitude},${request.query.data.longitude}`;
   superagent.get(url)
@@ -69,34 +122,11 @@ function handleWeather(request, response) {
 
 }
 
-function Weather(day) {
-  this.forecast = day.summary;
-  this.time = new Date(day.time * 1000).toString().slice(0,15);
-}
-
 
 app.use('*', notFoundHandler);
 app.use(errorHandler);
 
 // HELPER FUNCTIONS
-
-function Location(city, geoData) {
-  this.search_query = city;
-  this.formatted_query = geoData.results[0].formatted_address;
-  this.latitude = geoData.results[0].geometry.location.lat;
-  this.longitude = geoData.results[0].geometry.location.lng;
-}
-
-
-
-function  notFoundHandler(request,response) {
-  response.status(404).send('huh?');
-}
-
-function errorHandler(error,request,response) {
-  response.status(500).send(error);
-}
-
 
 
 // Make sure the server is listening for requests

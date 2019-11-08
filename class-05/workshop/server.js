@@ -1,5 +1,6 @@
 'use strict';
 
+//Define the requirements of this server
 require('dotenv').config();
 const express = require('express');
 const app = express();

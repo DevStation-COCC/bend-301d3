@@ -43,27 +43,18 @@ function handleLocation(request,response) {
       const geoData = data.body;
       const location = new Location(request.query.data, geoData);
       response.send(location);
+      response.send(data);
     })
     .catch( error => {
       console.error(error);
       response.status(500).send('Status: 500. Sorry, there is something not quite right');
-    })
+    });
 
 
 }
 
 function handleWeather(request, response) {
-  // try{
-  //   const darkskyData = require('./data/darksky.json');
-  //   const weatherSummaries = [];
-  //   darkskyData.daily.data.forEach( day => {
-  //     weatherSummaries.push(new Weather(day));
-  //   });
-  //   response.status(200).json(weatherSummaries);
-  // }
-  // catch {
-  //   errorHandler('so sorry, that is wrong')
-  // }
+
   const url = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${request.query.data.latitude},${request.query.data.longitude}`;
   superagent.get(url)
     .then( data => {
