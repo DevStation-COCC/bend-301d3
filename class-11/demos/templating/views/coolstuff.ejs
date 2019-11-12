@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <h1>My Coolstuff List</h1>
+    <p><a href="/">Home</a></p>
+    <ul>
+      <% coolstuffObjects.forEach(item => { %>
+        <p>Item: <%= item.name %></p>
+        <p>Type: <%= item.type%></p>
+        <p>And I need <%= item.quantity %> of these</p>
+      <% }) %>
+    </ul>
+  </body>
+</html>
