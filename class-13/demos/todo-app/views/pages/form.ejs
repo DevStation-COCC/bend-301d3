@@ -1,0 +1,10 @@
+<h2 class="view-title">Put Title of Form here, depending on operation</h2>
+<form action="/routeToOperation" method="post">
+  <input type="hidden" name="_method" value="actualOverrideOperationToPerform">
+  <input type="text" name="title" value="<%- task.title %>" placeholder="Task Name">
+  <textarea name="description" placeholder="Description of the task" cols="30" rows="10">Task Description</textarea>
+  <input type="text" name="category" value="get_category" placeholder="Category">
+  <input type="text" name="contact" value="get_contact"  placeholder="Contact Person">
+  <input type="text" name="status" value="get_status" placeholder="Completion Status">
+  <button type="submit">Operation_update_or_delete</button>
+</form>
