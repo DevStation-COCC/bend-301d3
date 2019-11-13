@@ -13,6 +13,12 @@
           <li class="task-item" data-id="<%= task.id %>">
 
               <!-- Add EJS here -->
+              <h4>Task: <%= task.title %></h4>
+              <p>Description: <%= task.description %></p>
+              <p>Contact person: <%= task.contact%> </p>
+              <p>Completion Status: <%= task.status %></p>
+              <p>Category: <%= task.category%></p>
+              <p>Complete this task by: <%= task.due%></p>
           </li>
         </ul>
       </section>
