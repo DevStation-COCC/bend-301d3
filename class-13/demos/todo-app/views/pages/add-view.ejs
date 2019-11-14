@@ -7,7 +7,7 @@
     <%- include('../layout/header') %>
     <main>
       <section class="create-view container">
-        <!-- include form partial for creating/saving a new book (post)-->
+        <%- include('form', { formAction: 'add', task: ''}) %>
       </section>
     </main>
   </body>

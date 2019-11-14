@@ -3,7 +3,7 @@
 // Application Dependencies
 const express = require('express');
 const pg = require('pg');
-const methodOverride = require('method-override');
+const methodOverride = require('method-override'); 
 
 // Environment variables
 require('dotenv').config();
@@ -41,7 +41,7 @@ app.get('/', getTasks);
 app.get('/tasks/:task_id', getOneTask);
 app.get('/add', showForm);
 app.post('/add', addTask);
-//Need a route to update task
+app.put('/update/:task_id', updateTask)
 app.get('*', (req, res) => res.status(404).send('This route does not exist'));
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
@@ -87,12 +87,15 @@ function addTask(request, response) {
 
 function updateTask(request, response) {
   // destructure variables
-  
+  let {title, description, category, contact, status} = request.body;
   // need SQL to update the specific task that we were on
-
+  let SQL = `UPDATE tasks SET title=$1, description=$2, category=$3, contact=$4, status=$5 WHERE id=$6`;
+  
+  let values = [title, description, category, contact, status, request.params.task_id];
   // use request.params.task_id === whatever task we were on
-
-
+  client.query(SQL, values)
+    .then(response.redirect(`/tasks/${request.params.task_id}`))
+    .catch(handleError);
 }
 
 function handleError(error, response) {
